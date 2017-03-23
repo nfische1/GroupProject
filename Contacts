@@ -1,0 +1,73 @@
+public class Contacts {
+
+	private String fname;
+	private String lname;
+	private String phone;
+	private String relationship;
+	
+	public Contacts (String fname, String lname, String phone, String r){
+		
+		this.fname = fname;
+		this.lname = lname;
+		this.phone = phone;
+		this.relationship = r;
+	}
+	
+
+	public String getFname() {
+		return fname;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public String getLname() {
+		return lname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
+	
+	
+public String locateContact (String countryCode){
+		
+		String location;
+		
+		if(countryCode == "+1"){
+			
+			location = "United States";
+		}else
+		{
+			location = "International";
+		}
+		
+		return location;
+	}
+
+@Override
+public String toString(){
+	
+	return getFname() + " " + getLname() + " " + getPhone() + " " + getRelationship();
+}
+	
+
+
+}
