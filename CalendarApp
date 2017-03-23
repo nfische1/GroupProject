@@ -1,0 +1,267 @@
+# CalendarApp
+package groupProject;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+
+
+/**
+ * Program: CalendarApp
+ * Project: Group Project
+ * Package: 
+ *
+ * 
+ */
+public class CalendarApp extends JFrame {
+
+	private JPanel contentPane;
+	private JPanel cal;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	/** The currently-interesting year (not modulo 1900!) */
+	protected int yy;
+
+	/** Currently-interesting month and day */
+	protected int mm, dd;
+
+	/** The buttons to be displayed */
+	protected JButton labs[][];
+
+	/** The number of day squares to leave blank at the start of this month */
+	protected int leadGap = 0;
+
+	/** A Calendar object used throughout */
+	Calendar realCalendar = new GregorianCalendar();
+
+	/** Today's year */
+	protected final int thisYear = realCalendar.get(Calendar.YEAR);
+
+	/** Today's month */
+	protected final int thisMonth = realCalendar.get(Calendar.MONTH);
+
+	/** One of the buttons. We just keep its reference for getBackground(). */
+	private JButton b0;
+
+	/** The month choice */
+	private JComboBox monthChoice;
+
+	/** The year choice */
+	private JComboBox yearChoice;
+	 	private JMenuBar menuBar;
+	 	private JMenuItem calendar;
+	    private JMenuItem todoList;
+	    private JMenuItem contactsList;
+	    private JMenuItem exit;
+	    
+	    private JPanel charControlPanel;
+	    private JTextField textField;
+	    private JTextArea textArea;
+
+	    private JPanel contactsControlPanel;
+	    private JTextArea contactsTextArea;
+	    private JRadioButton rdbtnContacts1;
+	    private JRadioButton rdbtnContacts2;
+	    private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	    private Icon clock;
+	    
+	    ArrayList<Contacts> contactList = new ArrayList<Contacts>();
+	    
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CalendarApp frame = new CalendarApp();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public CalendarApp() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(50, 50, 700, 450);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel);
+		
+		createMenu();
+		createContactsControlPanel();
+		createContactsLabel();
+	}
+	
+	private void createCalendarPanel(){
+		
+		cal = new JPanel();
+		//create the Panel for the calendar
+	}
+	
+	private void createContactsLabel() {
+        contactsTextArea = new JTextArea("Char");
+        contactsTextArea.setLineWrap(true);
+        contactsTextArea.setForeground(new Color(255, 255, 255));
+        contactsTextArea.setOpaque(true);
+        contactsTextArea.setBackground(new Color(220, 20, 60));
+        contactsTextArea.setFont(new Font("Verdana", Font.PLAIN, 40));
+        contactsTextArea.setMargin(new Insets(30, 30, 30, 30));
+    }
+	private void createContactsControlPanel(){
+		
+		contactsControlPanel = new JPanel();
+		contactsControlPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        contactsControlPanel.setLayout(new GridLayout(12, 1, 0, 0));
+        contactsControlPanel.setBackground(Color.ORANGE);
+                
+        rdbtnContacts1 = new JRadioButton("Add Contacts");
+        buttonGroup_1.add(rdbtnContacts1);
+        contactsControlPanel.add(rdbtnContacts1);
+        rdbtnContacts1.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+		
+		        contactsControlPanel.setBackground(SystemColor.controlHighlight);
+		        contactsControlPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
+		        contactsControlPanel.setLayout(new GridLayout(7, 1, 0, 0));
+		        contactsControlPanel.setPreferredSize(new Dimension(150,150));
+		        
+		        JTextField fnameField = new JTextField("First Name");
+		        contactsControlPanel.add(fnameField);
+		        JTextField lnameField = new JTextField("Last Name");
+		        contactsControlPanel.add(lnameField);
+		        JTextField phoneField = new JTextField("Phone Number");
+		        contactsControlPanel.add(phoneField);
+		        JTextField relField = new JTextField("Relationship");
+		        contactsControlPanel.add(relField);
+				JButton completeEntry = new JButton("Complete");
+				contactsControlPanel.add(completeEntry);
+				completeEntry.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						
+						Contacts c = new Contacts(fnameField.getText(), lnameField.getText(), phoneField.getText(), relField.getText());
+						contactList.add(c);
+					}
+					
+					
+				});
+			}
+        	
+        	
+        });
+        
+        rdbtnContacts2 = new JRadioButton("Display Contacts");
+        buttonGroup_1.add(rdbtnContacts2);
+        contactsControlPanel.add(rdbtnContacts2);
+        rdbtnContacts2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				contactsControlPanel.removeAll();
+				contactsControlPanel.setBackground(Color.ORANGE);
+				for (int i = 0; i < contactList.size(); i++) {
+
+					Contacts myContact = contactList.get(i);
+					JLabel individualContact = new JLabel(myContact.toString());
+					contactsControlPanel.add(individualContact);
+					//contactsTextArea.setText(String.valueOf(myContact));
+					//contentPane.add(contactsTextArea);
+				}
+			}
+        	
+        	
+        });
+		
+	}
+	
+	private void createMenu() {
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        contactsList = new JMenuItem("CONTACTS");
+        contactsList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                contentPane.removeAll();
+                contentPane.add(contactsControlPanel, BorderLayout.WEST);
+                revalidate();
+                repaint();
+            }
+        });
+        menuBar.add(contactsList);
+
+        todoList = new JMenuItem("TODO LIST");
+        todoList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                contentPane.removeAll();
+                contentPane.add(charControlPanel, BorderLayout.WEST);
+                contentPane.add(textArea, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        });
+        menuBar.add(todoList);
+
+        
+        calendar = new JMenuItem("CALENDAR");
+        calendar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                //add our calendar
+            }
+        });
+        menuBar.add(calendar);exit = new JMenuItem("EXIT");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                System.exit(0);
+            }
+        });
+        menuBar.add(exit);
+        
+        
+        
+    }
+	
+	
+
+}
