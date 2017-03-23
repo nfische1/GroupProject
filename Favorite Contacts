@@ -1,0 +1,40 @@
+package groupProject;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Program: FavoriteContacts Project: Group Project Package: groupProject
+ * 
+ * 
+ * @since Jul 29, 2015
+ * 
+ */
+public class FavoriteContacts {
+
+	private Set<Contacts> favs;
+
+	public FavoriteContacts(Contacts... favs) {
+
+		this.favs = new HashSet<Contacts>(Arrays.asList(favs));
+	}
+
+	public String getFavs() {
+
+		StringBuilder sb = new StringBuilder();
+		for (Contacts c : favs) {
+
+			sb.append("Favorites: " + c + "\n");
+		}
+
+		return sb.toString();
+
+	}
+
+	public void addElements(Contacts c) {
+
+		favs.add(c);
+	}
+
+}
